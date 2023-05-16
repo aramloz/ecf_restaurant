@@ -1,0 +1,138 @@
+-- Lancer les commandes l'une à la suite de l'autre
+
+-- création de la base de données
+CREATE DATABASE ecf_restaurant;
+
+-- Création tableau "quai_antique_plat"
+CREATE TABLE ecf_restaurant.quai_antique_plat (
+  plat_id INT NOT NULL AUTO_INCREMENT,
+  plat_titre VARCHAR(255) NOT NULL,
+  plat_description VARCHAR(255) NOT NULL,
+  plat_prix DECIMAL(10,2) NOT NULL,
+  plat_categorie VARCHAR(255) NOT NULL,
+  PRIMARY KEY (plat_id)
+);
+
+-- Création tableau "quai_antique_menu"
+CREATE TABLE ecf_restaurant.quai_antique_menu (
+  menu_id INT NOT NULL AUTO_INCREMENT,
+  menu_titre VARCHAR(255) NOT NULL,
+  PRIMARY KEY (menu_id)
+);
+
+-- Création tableau "quai_antique_formule"
+CREATE TABLE ecf_restaurant.quai_antique_formule (
+  formule_id INT NOT NULL AUTO_INCREMENT,
+  formule_titre VARCHAR(255) NOT NULL,
+  formule_description VARCHAR(255) NOT NULL,
+  formule_prix DECIMAL(10, 2) NOT NULL,
+  PRIMARY KEY (formule_id)
+);
+
+-- Création tableau "quai_antique_menu_formule" qui associe des formules à des menus
+CREATE TABLE ecf_restaurant.quai_antique_menu_formule (
+  menu_id INT,
+  formule_id INT,
+  PRIMARY KEY (menu_id, formule_id),
+  FOREIGN KEY (menu_id) REFERENCES ecf_restaurant.quai_antique_menu(menu_id),
+  FOREIGN KEY (formule_id) REFERENCES ecf_restaurant.quai_antique_formule(formule_id)
+);
+
+-- Création tableau "quai_antique_horaire"
+CREATE TABLE ecf_restaurant.quai_antique_horaire (
+  horaire_jour varchar(255) NOT NULL,
+  horaire_etat boolean NOT NULL,
+  horaire_debut time NULL DEFAULT NULL,
+  horaire_fin time NULL DEFAULT NULL,
+  PRIMARY KEY (horaire_jour)
+);
+
+-- Création tableau "quai_antique_capacite"
+CREATE TABLE ecf_restaurant.quai_antique_capacite (
+  capacite_max INT NOT NULL
+);
+
+-- Création tableau "quai_antique_reservation"
+CREATE TABLE ecf_restaurant.quai_antique_reservation (
+  reservation_id INT NOT NULL AUTO_INCREMENT,
+  reservation_nombre INT NOT NULL,
+  reservation_email VARCHAR(255) NOT NULL,
+  reservation_date DATE NOT NULL,
+  reservation_time TIME NOT NULL,
+  reservation_commentaire VARCHAR(255),
+  PRIMARY KEY (reservation_id)
+);
+
+-- Création tableau "quai_antique_utilisateur"
+CREATE TABLE ecf_restaurant.quai_antique_utilisateur (
+  utilisateur_email VARCHAR(255) NOT NULL,
+  utilisateur_admin boolean NOT NULL,
+  utilisateur_mdp VARCHAR(255) NOT NULL,
+  utilisateur_nombre INT NOT NULL,
+  utilisateur_allergie VARCHAR(255),
+  PRIMARY KEY (utilisateur_email)
+);
+
+-- Insérer l'utilisateur admin dans le tableau "quai_antique_utilisateur"
+INSERT INTO ecf_restaurant.quai_antique_utilisateur 
+  (utilisateur_email, utilisateur_admin, utilisateur_mdp, utilisateur_nombre, utilisateur_allergie)
+VALUES 
+  ('admin@admin.com', 1, 'admin', 0, NULL);
+
+-- Insérer la capacite initiale dans le tableau "quai_antique_capacite"
+INSERT INTO ecf_restaurant.quai_antique_capacite 
+  (capacite_max)
+VALUES 
+  (50);
+
+-- Insérer les horaires initiales dans le tableau "quai_antique_horaire"
+INSERT INTO ecf_restaurant.quai_antique_horaire
+  (horaire_jour, horaire_etat)
+VALUES 
+  ('Lundi', 1),
+  ('Mardi', 0),
+  ('Mercredi', 1),
+  ('Jeudi', 0),
+  ('Vendredi', 1),
+  ('Samedi', 0),
+  ('Dimanche', 1);
+
+-- Insérer les plats initiaux dans le tableau "quai_antique_plat"
+INSERT INTO ecf_restaurant.quai_antique_plat
+  (plat_titre, plat_description, plat_prix, plat_categorie)
+VALUES 
+  ('Mloukhiye', 'Egyptian speciality', 25, 'International'),
+  ('Pizza Margarita', 'Italian speciality', 15, 'Pizza'),
+  ('Cheese burger', 'Nareg speciality', 17, 'Burger');
+  
+-- Insérer les formules initiales dans le tableau "quai_antique_formule"
+INSERT INTO ecf_restaurant.quai_antique_formule
+  (formule_titre, formule_description, formule_prix)
+VALUES 
+  ('Formule 1', 'Entrée + Plat', 15),
+  ('Formule 2', 'Plat + Dessert', 20);
+  
+-- Insérer les menus initiaux dans le tableau "quai_antique_menu"
+INSERT INTO ecf_restaurant.quai_antique_menu
+  (menu_titre)
+VALUES 
+  ('Menu du jour'),
+  ('Menu du soir');
+ 
+-- Associer le menu 'Menu du jour' à la 'Formule 1' et 'Formule 2'
+INSERT INTO ecf_restaurant.quai_antique_menu_formule (menu_id, formule_id)
+SELECT m.menu_id, f.formule_id
+FROM quai_antique_menu m, quai_antique_formule f
+WHERE m.menu_titre = 'Menu du jour' AND f.formule_titre IN ('Formule 1', 'Formule 2');
+
+-- Associer le menu 'Menu du soir' à la 'Formule 2'
+INSERT INTO ecf_restaurant.quai_antique_menu_formule (menu_id, formule_id)
+SELECT m.menu_id, f.formule_id
+FROM quai_antique_menu m, quai_antique_formule f
+WHERE m.menu_titre = 'Menu du soir' AND f.formule_titre IN ('Formule 2');
+
+-- Insérer une réservation dans le tableau "quai_antique_reservation"
+INSERT INTO ecf_restaurant.quai_antique_reservation
+  (reservation_nombre, reservation_email, reservation_date, reservation_time)
+VALUES 
+  (50, 'sako@sako.com', '2023-05-25', '12:00:00');
