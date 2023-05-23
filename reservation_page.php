@@ -2,26 +2,11 @@
 <html>
 <head>
   <title>Reservation Form</title>
-  <style>
-    .time-slot {
-      display: inline-block;
-      padding: 5px 10px;
-      border: 1px solid #000;
-      margin: 5px;
-      cursor: pointer;
-    }
-    
-    .time-slot.unselectable {
-      background-color: #f0f0f0;
-      pointer-events: none;
-    }
-
-    .time-slot.selected {
-      background-color: #30c5ff;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <a href="home_page.php">Home page</a>
 
     <form action="reservation_add.php" method="POST">
         <label for="email">Email:</label>
@@ -44,8 +29,13 @@
         <label for="num_people">Nombre de couverts:</label>
         <select name="num_people" id="num_people" onchange="getTimeSlots()" required>
         <?php
-            include 'nombre_couverts_retrieval.php';
             $maxPeople = 6; // Maximum number of people
+            $nombre = 1; // valeur par défaut
+
+            if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+                include 'nombre_couverts_retrieval.php';
+            }
+
             for ($i = 1; $i <= $maxPeople; $i++) {
                 if ($i == $nombre){
                     echo "<option value=\"$i\" selected>$i personne" . ($i > 1 ? "s" : "") . "</option>";
@@ -68,7 +58,10 @@
 
         <label for="comments">Commentaires:</label><br>
         <?php
-            include 'nombre_couverts_retrieval.php';
+            $allergie = "";
+            if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+                include 'nombre_couverts_retrieval.php';
+            }
             echo '<textarea name="comments" id="comments" rows="4">' . $allergie . '</textarea><br>';
         ?>
 

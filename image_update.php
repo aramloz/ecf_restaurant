@@ -4,15 +4,12 @@ $conn = mysqli_connect('localhost', 'root', '', 'ecf_restaurant');
 
 // Check if the update button is clicked
 if (isset($_GET['id']) && isset($_POST['submit'])) {
-    // Get the ID of the plat to be updated
+    // Get the ID of the image to be updated
     $id = $_GET['id'];
     $titre = $_POST['titre'];
-    $description = $_POST['description'];
-    $prix = $_POST['prix'];
-    $categorie = $_POST['categorie'];
 
-    // Update the plat in the quai_antique_plat table
-    $sql = "UPDATE quai_antique_plat SET plat_titre = '$titre', plat_description = '$description' , plat_prix = '$prix', plat_categorie = '$categorie' WHERE plat_id = '$id'";
+    // Update the image in the quai_antique_image table
+    $sql = "UPDATE quai_antique_image SET image_titre = '$titre' WHERE image_id = '$id'";
     mysqli_query($conn, $sql);
 
     // Close the database connection

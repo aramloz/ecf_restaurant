@@ -2,30 +2,13 @@
 <html>
     <head>
         <title>Admin page</title>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <style>
-            table {
-            border-collapse: collapse;
-            width: 100%;
-            }
-
-            th, td {
-            text-align: left;
-            padding: 8px;
-            border: 1px solid #ddd;
-            }
-
-            th {
-            background-color: #4CAF50;
-            color: white;
-            }
-        </style>
-
         <a href="home_page.php">Home page</a>
 
         <h2>Capacity</h2>
-        <form action="capacity_change.php" method="post">
+        <form action="capacity_change.php" method="post" class="form_centre">
             <label for="capacity">Capacity:</label>
             <input type="text" id="capacity" name="capacity" pattern="[0-9]*" required title="Please enter a valid number" value="<?php require 'capacity_retrieval.php'; ?>" required>
             <input type="submit" value="Change">
@@ -88,7 +71,9 @@
             </tr>
             </tbody>
         </table>
-        <input type="submit" value="Change">
+        <div class="form_centre">
+            <input type="submit" value="Change" class="form_centre">
+        </div>
         </form>
 
         <!-- JavaScript to togge the start and end times of the horaire -->
@@ -300,6 +285,54 @@
         // Close the table
         echo '</form>';
         echo '</table>';
+
+        // Close the database connection
+        mysqli_close($conn);
+        ?>
+
+        <h2>Galerie</h2>
+        <?php
+        // Connect to the database
+        $conn = mysqli_connect('localhost', 'root', '', 'ecf_restaurant');
+
+        // Retrieve the images from the quai_antique_image table
+        $sql = "SELECT * FROM quai_antique_image";
+        $result = mysqli_query($conn, $sql);
+
+        // Display the menus as a table
+        echo '<table border="1">
+                <tr>
+                    <th>Images</th>
+                    <th>Titres</th>
+                    <th>Actions</th>
+                </tr>';
+
+        $formule_sql = "SELECT formule_titre FROM quai_antique_formule";
+        $formule_result = mysqli_query($conn, $formule_sql);
+
+        // Loop through the menus and display them as table rows
+        while ($row = mysqli_fetch_assoc($result)) {
+            $image_id = $row['image_id'];
+            $image_titre = $row['image_titre'];
+            $image_data = base64_encode($row['image_binaire']);
+
+            echo '<form action="image_update.php?id=' . $row['image_id'] . '" method="POST">';
+            echo '<tr>
+                    <td><div><img src="data:image/jpeg;base64,' . $image_data . '" alt="' . $image_titre . '"></div></td>
+                    <td><input type="text" name="titre" value="' . $image_titre . '" readonly></td>
+                    <td>
+                        <button class="edit" data-id="' . $image_id . '" type="button">Edit</button>
+                        <button class="delete" data-id="' . $image_id . '" type="button"><a href="image_delete.php?id=' . $image_id . '">Delete</a></button>
+                        <button class="update" data-id="' . $image_id . '" type="submit" name="submit" disabled>Update</button>
+                    </td>
+                </tr>';
+            echo '</form>';
+        }
+        echo '</table>';
+        echo '<form action="image_add.php" method="POST" enctype="multipart/form-data">';
+        echo 'Choisir une ou plusieurs photos à ajouter: <input type="file" name="photo[]" multiple><br>';
+        echo '<input type="submit" value="Upload Photo">';
+        echo '</form>';
 
         // Close the database connection
         mysqli_close($conn);

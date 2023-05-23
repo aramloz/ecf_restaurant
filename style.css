@@ -1,0 +1,138 @@
+body {
+  background-color: #b6ac97;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Berolina&display=swap');
+table {
+  width: 50%;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 6px;
+  text-align: center;
+  border-bottom: none;
+}
+
+table th {
+  background-color: #f2f2f2;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+h3 {
+ text-align: center;
+ margin-bottom: 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-family: 'Berolina', cursive;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.image-row {
+display: flex;
+justify-content: space-between;
+width: 100%;
+max-width: 900px;
+margin-bottom: 20px;
+}
+
+.image-row img {
+width: calc(33.33% - 10px);
+height: auto;
+margin-bottom: 0;
+}
+
+.gallery img {
+width: 30%;
+height: auto;
+object-fit: cover;
+transition: transform 0.3s;
+border-radius: 25px;
+max-width: 280px;
+}
+
+.gallery img:hover {
+  transform: scale(1.1);
+}
+
+.gallery .image-row img:hover + .caption {
+opacity: 1;
+visibility: visible;
+}
+
+.gallery .image-row .caption {
+position: absolute;
+bottom: 5px;
+left: 0;
+right: 0;
+background-color: rgba(0, 0, 0, 0.8);
+color: #fff;
+padding: 5px;
+font-size: 14px;
+text-align: center;
+visibility: hidden;
+opacity: 0;
+transition: opacity 0.3s;
+}
+
+.gallery .image-row .image-container {
+position: relative;
+}
+
+.gallery .image-row .image-container img {
+display: block;
+width: 100%;
+height: auto;
+object-fit: cover;
+}
+
+.plats {
+  text-align: center;
+}
+
+.formules {
+  text-align: center;
+}
+
+.time-slot {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #000;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.time-slot.unselectable {
+  background-color: #f0f0f0;
+  pointer-events: none;
+}
+
+.time-slot.selected {
+  background-color: #30c5ff;
+}
+
+.form_centre {
+  display: flex;
+  justify-content: center;
+}

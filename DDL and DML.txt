@@ -73,6 +73,15 @@ CREATE TABLE ecf_restaurant.quai_antique_utilisateur (
   PRIMARY KEY (utilisateur_email)
 );
 
+-- Création tableau "quai_antique_image"
+CREATE TABLE ecf_restaurant.quai_antique_image (
+  image_id INT NOT NULL AUTO_INCREMENT,
+  image_binaire LONGBLOB NOT NULL,
+  image_titre VARCHAR(255) NOT NULL,
+  PRIMARY KEY (image_id)
+);
+
+
 -- Insérer l'utilisateur admin dans le tableau "quai_antique_utilisateur"
 INSERT INTO ecf_restaurant.quai_antique_utilisateur 
   (utilisateur_email, utilisateur_admin, utilisateur_mdp, utilisateur_nombre, utilisateur_allergie)
@@ -103,6 +112,7 @@ INSERT INTO ecf_restaurant.quai_antique_plat
 VALUES 
   ('Mloukhiye', 'Egyptian speciality', 25, 'International'),
   ('Pizza Margarita', 'Italian speciality', 15, 'Pizza'),
+  ('Pizza Regina', 'Italian speciality', 15, 'Pizza'),
   ('Cheese burger', 'Nareg speciality', 17, 'Burger');
   
 -- Insérer les formules initiales dans le tableau "quai_antique_formule"

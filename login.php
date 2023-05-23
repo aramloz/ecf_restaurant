@@ -65,9 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <head>
     <meta charset="UTF-8">
     <title>Login Form</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <h1>Login Form</h1>
     <?php if (isset($error)): ?>
       <p style="color: red;"><?php echo $error; ?></p>
     <?php endif; ?>
